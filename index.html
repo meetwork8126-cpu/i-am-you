@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGPT — New chat</title>
+<style>
+:root{color-scheme:dark;--bg:#212121;--panel:#2f2f2f;--muted:#a1a1aa;--text:#ececec;--green:#10a37f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+.app{min-height:100vh;display:flex}.side{width:255px;background:#171717;padding:18px 14px;display:flex;flex-direction:column;gap:22px}
+.brand{font-size:18px;font-weight:650;letter-spacing:-.4px;padding:5px 9px}.new{border:1px solid #454545;border-radius:10px;padding:11px 12px;color:#eee;background:#202020}
+.side small{color:#858585;padding:0 9px}.side .foot{margin-top:auto;color:#888;font-size:12px;padding:10px}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}.top{height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #333}.top strong{font-weight:550}.top span{font-size:12px;color:#999}
+.center{width:min(760px,calc(100% - 36px));margin:9vh auto 0;flex:1}.welcome{text-align:center;font-size:28px;font-weight:550;letter-spacing:-.7px;margin-bottom:34px}
+.composer{background:var(--panel);border:1px solid #4b4b4b;border-radius:24px;padding:17px 18px;box-shadow:0 12px 40px #0002}
+textarea{width:100%;resize:none;border:0;outline:0;background:transparent;color:#eee;font:16px/1.5 inherit;min-height:64px}
+.actions{display:flex;justify-content:flex-end;align-items:center}.send{background:#eee;color:#171717;border:0;border-radius:50%;width:34px;height:34px;font-size:19px;cursor:pointer}
+.hint{text-align:center;color:#858585;font-size:12px;margin:14px}
+.reply{margin:36px auto 0;max-width:680px;display:none}.user{background:#303030;border-radius:20px;padding:13px 17px;margin-left:auto;max-width:85%;white-space:pre-wrap}.assistant{display:flex;gap:14px;margin-top:25px}.dot{width:28px;height:28px;flex:0 0 28px;border-radius:50%;background:#10a37f;color:#fff;display:grid;place-items:center;font-weight:700}.suggestions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}.suggestion{border:1px solid #555;background:#292929;color:#eee;border-radius:18px;padding:10px 15px;cursor:pointer}.suggestion:hover{border-color:#aaa;background:#353535}.note{font-size:12px;color:#777;margin-top:20px}
+@media(max-width:700px){.side{display:none}.center{margin-top:12vh}.welcome{font-size:24px}}
+</style>
+</head>
+<body><div class="app">
+<aside class="side"><div class="brand">◉ ChatGPT</div><button class="new" onclick="location.reload()">＋ New chat</button><small>Today</small><small>New conversation</small><div class="foot">Film prop interface · I AM YOU</div></aside>
+<main class="main"><header class="top"><strong>ChatGPT <span>⌄</span></strong><span>Film prop interface</span></header>
+<section class="center"><div class="welcome" id="welcome">What’s on your mind today?</div>
+<div class="composer"><textarea id="prompt" placeholder="Message ChatGPT" rows="2"></textarea><div class="actions"><button class="send" id="send" aria-label="Send">↑</button></div></div>
+<div class="hint">Enter to send · Shift + Enter for a new line</div>
+<div class="reply" id="reply"><div class="user" id="userText"></div><div class="assistant"><div class="dot">✳</div><div><div>Here are a few things you could try:</div><div class="suggestions"><button class="suggestion" onclick="openPortal()">Talk to Yourself ↗</button><button class="suggestion" onclick="openPortal()">Try something creative</button><button class="suggestion" onclick="openPortal()">Explore a new interest</button></div><div class="note">Choose a suggestion to continue.</div></div></div></div>
+</section></main></div>
+<script>
+const exact="Hello ChatGPT! I am feeling bored and lonely as no one wants to talk to me so provide me with some interesting suggestions to pass my time.";
+const field=document.getElementById('prompt');
+function submitPrompt(){const value=field.value.trim();if(!value)return;document.getElementById('userText').textContent=value;document.getElementById('reply').style.display='block';document.getElementById('welcome').style.display='none';field.value='';const norm=x=>x.toLowerCase().replace(/[.!?…:,;'"()]/g,'').replace(/\\s+/g,' ').trim();const isExact=norm(value)===norm(exact);const answer=document.querySelector('.assistant > div');if(isExact){answer.innerHTML='<div>Here are a few things you could try:</div><div class="suggestions"><button class="suggestion" onclick="openPortal()">Talk to Yourself ↗</button><button class="suggestion" onclick="openPortal()">Try something creative</button><button class="suggestion" onclick="openPortal()">Explore a new interest</button></div><div class="note">Choose a suggestion to continue.</div>';}else{answer.innerHTML='<div>Here are a few ideas to help you pass the time. Try exploring a hobby, listening to music, or starting a conversation.</div>';}}
+document.getElementById('send').addEventListener('click',submitPrompt);
+field.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();submitPrompt();}});
+function openPortal(){location.href='portal.html';}
+</script></body></html>

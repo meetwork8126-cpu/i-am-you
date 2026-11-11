@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>I AM YOU — Personal AI</title>
+<style>
+:root{color-scheme:dark;--bg:#08090e;--panel:#11121b;--line:#292735;--text:#eeeaf6;--muted:#9290a2;--violet:#bca6f4;--violet2:#7b61b6}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 34%,#1a1726 0,#0b0b12 42%,#07080c 100%);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+header{height:76px;border-bottom:1px solid #282532;display:flex;align-items:center;justify-content:space-between;padding:0 4vw;background:#090a0fbb}
+.brand{display:flex;align-items:center;gap:13px;letter-spacing:4px;font-size:17px}.brand img,.avatar{width:46px;height:46px;object-fit:cover;border-radius:50%;border:1px solid #8e7cae;box-shadow:0 0 18px #9d81d744}
+.sub{font-size:10px;letter-spacing:2px;color:#858194;margin-top:2px}.status{border:1px solid #244a46;color:#85d8c8;border-radius:20px;padding:8px 14px;font-size:11px;letter-spacing:2px}
+.welcome{min-height:calc(100vh - 76px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:38px 20px 70px}
+.heroimg{width:156px;height:156px;object-fit:cover;border-radius:50%;border:1px solid #a99ac0;box-shadow:0 0 0 10px #ffffff05,0 0 55px #b6a0df55;margin-bottom:34px}
+h1{font-weight:300;letter-spacing:15px;font-size:clamp(35px,6vw,64px);margin:0 0 16px;text-shadow:0 0 25px #c5b1ff66}
+.tag{font-family:Georgia,serif;font-size:clamp(17px,2.3vw,26px);color:#d6cce7;margin:0 0 18px}.subtag{letter-spacing:3px;color:#9994a9;font-size:12px;margin-bottom:42px}
+.start{border:1px solid #8e77b4;border-radius:40px;padding:17px 35px;background:linear-gradient(110deg,#211b31,#302541,#211b31);color:#eee6ff;font-size:17px;letter-spacing:.4px;cursor:pointer;box-shadow:0 0 28px #a78bdf33;transition:.25s}
+.start:hover{box-shadow:0 0 38px #b99dfb77;transform:translateY(-2px)}
+.foot{position:absolute;bottom:20px;left:4vw;right:4vw;display:flex;justify-content:space-between;color:#777486;font-size:10px;letter-spacing:2px}
+.chat{display:none;max-width:900px;margin:0 auto;padding:36px 22px 120px;min-height:calc(100vh - 76px)}
+.chathead{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:24px}
+.chathead img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid #8e7cae}.chathead strong{letter-spacing:2px}.chathead small{display:block;color:var(--muted);font-size:11px}
+.messages{display:flex;flex-direction:column;gap:20px;padding-bottom:24px}.msg{display:flex;gap:12px;align-items:flex-start;max-width:90%}.msg.user{align-self:flex-end;flex-direction:row-reverse}.bubble{padding:13px 17px;border-radius:16px;background:#171722;border:1px solid #302d3d;white-space:pre-wrap}.user .bubble{background:#292238;border-color:#493c60}.who{font-size:10px;color:#aaa2b7;letter-spacing:1px;margin-bottom:5px}.mini{width:30px;height:30px;flex:0 0 30px;border-radius:50%;object-fit:cover;border:1px solid #87749e}
+.typing{display:none;color:#b9a7dc;font-size:12px;letter-spacing:2px;padding-left:43px}
+.composer{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:min(850px,calc(100% - 34px));display:flex;gap:10px;background:#15141e;border:1px solid #393448;border-radius:18px;padding:10px;box-shadow:0 10px 40px #0008}
+input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#f3effa;font-size:15px;padding:8px 10px}input::placeholder{color:#777386}
+.send{border:0;border-radius:12px;background:#8f78b8;color:white;padding:0 18px;font-size:19px;cursor:pointer}
+@media(max-width:600px){header{padding:0 18px}.brand{letter-spacing:2px;font-size:14px}.status{font-size:9px;padding:7px}.heroimg{width:125px;height:125px}.foot{font-size:8px;letter-spacing:1px}.bubble{font-size:14px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><img src="assets/iy-anonymous-avatar.png" alt="Anonymous I AM YOU symbol"><div>I AM YOU<div class="sub">PERSONAL AI INTERFACE</div></div></div><div class="status">● SYSTEM ONLINE</div></header>
+<section class="welcome" id="welcome"><img class="heroimg" src="assets/iy-anonymous-avatar.png" alt="Faceless anonymous silhouette">
+<h1>I AM YOU</h1><p class="tag">A conversation with the one who knows you best.</p><div class="subtag">YOUR THOUGHTS. &nbsp; YOUR MEMORIES. &nbsp; YOUR OTHER SELF.</div>
+<button class="start" id="start">◉ &nbsp; Start a Conversation &nbsp; →</button>
+<div class="foot"><span>I AM YOU · VERSION 1.0</span><span>♙ PERSONAL SESSION</span></div></section>
+<section class="chat" id="chat"><div class="chathead"><img src="assets/iy-anonymous-avatar.png" alt=""><div><strong>I AM YOU</strong><small>Personal AI · Private session</small></div></div><div class="messages" id="messages"></div><div class="typing" id="typing">I AM YOU IS TYPING…</div></section>
+<div class="composer" id="composer" style="display:none"><input id="entry" placeholder="Message I AM YOU…" autocomplete="off"><button class="send" id="send">↑</button></div>
+<script>
+const welcome=document.getElementById('welcome'),chat=document.getElementById('chat'),composer=document.getElementById('composer'),entry=document.getElementById('entry'),messages=document.getElementById('messages'),typing=document.getElementById('typing');
+const avatar='assets/iy-anonymous-avatar.png';let step=0,busy=false;
+function add(text,who){const row=document.createElement('div');row.className='msg '+who;const img=document.createElement('img');img.className='mini';img.src=avatar;const wrap=document.createElement('div');const label=document.createElement('div');label.className='who';label.textContent=who==='user'?'AYUSH':'I AM YOU';const bubble=document.createElement('div');bubble.className='bubble';bubble.textContent=text;wrap.append(label,bubble);row.append(img,wrap);messages.append(row);window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});}
+function bot(text,delay=1500){busy=true;typing.style.display='block';setTimeout(()=>{typing.style.display='none';add(text,'bot');busy=false;entry.focus();},delay);}
+document.getElementById('start').onclick=()=>{welcome.style.display='none';chat.style.display='block';composer.style.display='flex';add('Hii! I am Ayush. How’s your day going?','bot');entry.focus();};
+function normalize(s){return s.toLowerCase().replace(/[.!?…:,;'"()]/g,'').replace(/\s+/g,' ').trim();}
+function send(){if(busy)return;const text=entry.value.trim();if(!text)return;entry.value='';add(text,'user');const t=normalize(text);
+if(step===0&&t.includes('wtf')&&t.includes('real')){step=1;bot('It is…',1750);}
+else if(step===1&&t.includes('tell me something about yourself')){step=2;bot('If I talk about us, we both love gaming the most.',2350);}
+else if(step===2&&t.includes('didnt know youre that good')){step=3;bot('IGNORE IT!!!',3600);}
+else if(step===3&&t==='what'){step=4;/* Ayush checks the door. The AI speaks after he returns. */setTimeout(()=>bot('You should’ve listened to me.',4200),1800);}
+else if(step===4&&t.includes('what are u talking about')){step=5;bot('The Knock!!',1900);}
+}
+document.getElementById('send').onclick=send;entry.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();send();}});
+</script></body></html>
